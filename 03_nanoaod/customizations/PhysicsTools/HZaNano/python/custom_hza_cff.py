@@ -2,6 +2,34 @@ import FWCore.ParameterSet.Config as cms
 from PhysicsTools.NanoAOD.common_cff import Var
 
 
+
+def HZaBTVNanoAOD_allPF_noAK8(process):
+    """
+    First HZaNano slimming prototype.
+
+    Keep:
+      - AK4 BTV extensions
+      - All PF candidates
+
+    Disable:
+      - AK8 BTV extensions and associated tagger additions
+
+    Note: Standard NanoAOD FatJet/SubJet content is
+    not removed by this switch.
+    """
+    from PhysicsTools.NanoAOD.custom_btv_cff import (
+        BTVCustomNanoAOD_base,
+    )
+
+    switches = cms.PSet(
+        btvNano_addAK4_switch=cms.untracked.bool(True),
+        btvNano_addAK8_switch=cms.untracked.bool(False),
+        btvNano_addallPF_switch=cms.untracked.bool(True),
+        TaggerInput=cms.string("btvSF"),
+    )
+
+    return BTVCustomNanoAOD_base(process, switches)
+
 def _append_unique_select(process, statements):
     existing = list(process.finalGenParticles.select)
     for statement in statements:
