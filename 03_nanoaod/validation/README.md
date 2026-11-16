@@ -81,10 +81,6 @@ The committed configuration contains placeholder input/output filenames. These m
 The initial validation used 100 events from one MiniAOD file.
 
 The following processing chain was tested:
-
-
-The following processing chain was tested:
-
 ```text
 Run2024C Muon0 MiniAOD
           |
