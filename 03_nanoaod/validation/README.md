@@ -48,7 +48,6 @@ switches = cms.PSet(
 The AK8 BTV switch alone does not remove the standard NanoAOD FatJet and SubJet tables.
 
 ### 2.2 Data configuration
-### 2.2 Data configuration
 
 The tested configuration is stored in:
 
@@ -83,22 +82,27 @@ The initial validation used 100 events from one MiniAOD file.
 
 The following processing chain was tested:
 
+
+The following processing chain was tested:
+
 ```text
 Run2024C Muon0 MiniAOD
           |
-	            v
-		        Custom HZaNano
-			     (without AK8)
-			               |
-				                 v
-						    HZaEventProducer
-						              |
-							                v
-									      HZaAnalyzer
-									                |
-											          v
-												     Analysis ROOT output
-												     ```
+          v
+    Custom HZaNano
+     (without AK8)
+          |
+          v
+   HZaEventProducer
+          |
+          v
+      HZaAnalyzer
+          |
+          v
+  Analysis ROOT output
+```
+
+
 
 The NanoAOD production was performed on LXPLUS.
 
