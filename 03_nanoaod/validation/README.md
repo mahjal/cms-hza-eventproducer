@@ -1,4 +1,30 @@
-cer and HZaAnalyzer workflow.
+# HZaNano AK8 Slimming — Run 2024 Data Validation
+
+**Validation date:** 16 November 2026  
+**Status:** Small-sample end-to-end integration test passed  
+**Dataset:** Run 2024C Muon0  
+**CMSSW release:** CMSSW_15_0_18
+
+## 1. Overview
+
+This study validates an optimized HZaNano configuration for the exclusive search H → Za, with Z → ℓ⁺ℓ⁻ and a → hadrons.
+
+The objective is to reduce NanoAOD output size by removing unnecessary AK8 jet and subjet information while preserving the collections required for the HZa analysis.
+
+The optimized configuration retains:
+
+- AK4 BTV extensions
+- AllPF candidates and associated information
+- Muon and electron collections
+- HLT and L1 trigger information
+- Event identifiers and other required analysis variables
+
+The following content is removed:
+
+- AK8 BTV extensions
+- Standard NanoAOD FatJet and SubJet output tables
+
+This validation tests whether the optimized NanoAOD can be processed through the existing HZaEventProducer and HZaAnalyzer workflow.
 
 ## 2. Implementation
 
@@ -13,14 +39,15 @@ The function `HZaBTVNanoAOD_allPF_noAK8(process)` configures:
 ```python
 switches = cms.PSet(
     btvNano_addAK4_switch=cms.untracked.bool(True),
-        btvNano_addAK8_switch=cms.untracked.bool(False),
-	    btvNano_addallPF_switch=cms.untracked.bool(True),
-	        TaggerInput=cms.string("btvSF"),
-		)
-		```
+    btvNano_addAK8_switch=cms.untracked.bool(False),
+    btvNano_addallPF_switch=cms.untracked.bool(True),
+    TaggerInput=cms.string("btvSF"),
+)
+```
 
 The AK8 BTV switch alone does not remove the standard NanoAOD FatJet and SubJet tables.
 
+### 2.2 Data configuration
 ### 2.2 Data configuration
 
 The tested configuration is stored in:
