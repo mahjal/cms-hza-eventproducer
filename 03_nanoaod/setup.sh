@@ -72,23 +72,28 @@ echo "CMSSW_BASE: $CMSSW_BASE"
 echo ""
 
 # ─── Install local HZa NanoAOD customisation ─────────────────────────────────
-CUSTOM_SRC="${SCRIPT_DIR}/customizations/PhysicsTools/HZaNano"
-CUSTOM_DST="${CMSSW_BASE}/src/PhysicsTools/HZaNano"
+# Install local PhysicsTools customizations.
+for PACKAGE in HZaNano HZaPFSelection; do
+    CUSTOM_SRC="${SCRIPT_DIR}/customizations/PhysicsTools/${PACKAGE}"
+    CUSTOM_DST="${CMSSW_BASE}/src/PhysicsTools/${PACKAGE}"
 
-if [ -d "$CUSTOM_SRC" ]; then
-    echo "Installing local HZa NanoAOD customisation into CMSSW..."
-    mkdir -p "${CMSSW_BASE}/src/PhysicsTools"
-    rm -rf "$CUSTOM_DST"
-    cp -r "$CUSTOM_SRC" "$CUSTOM_DST"
-    echo "Building local CMSSW python package..."
-    scram b -j $NTHREADS
-    cd "$SCRIPT_DIR"
-    echo "  → Installed: ${CUSTOM_DST}"
-    echo ""
-else
-    echo "WARNING: Local HZa NanoAOD customisation not found at ${CUSTOM_SRC}"
-    echo ""
-fi
+    if [ -d "$CUSTOM_SRC" ]; then
+        echo "Installing ${PACKAGE} into CMSSW..."
+
+        mkdir -p "${CMSSW_BASE}/src/PhysicsTools"
+        rm -rf "$CUSTOM_DST"
+        cp -r "$CUSTOM_SRC" "$CUSTOM_DST"
+
+        echo "  -> Installed: ${CUSTOM_DST}"
+    else
+        echo "WARNING: Missing local customization: ${CUSTOM_SRC}"
+    fi
+done
+
+echo "Building local CMSSW packages..."
+scram b -j "$NTHREADS"
+
+cd "$SCRIPT_DIR"
 
 # ─── Generate cmsDriver configs ──────────────────────────────────────────────
 cd "$SCRIPT_DIR"
